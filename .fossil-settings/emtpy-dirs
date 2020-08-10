@@ -1,6 +1,5 @@
 ./neomutt/cache
 ./neomutt/cache/bodies
-./neomutt/cache/certificates
 ./neomutt/cache/headers
 ./vim/backup
 ./vim/swap
