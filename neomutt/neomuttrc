@@ -55,9 +55,9 @@ source mail_server
 # Cache & performance
 ########################
 
-set header_cache      = ~/.config/neomutt/cache/headers
-set message_cachedir  = ~/.config/neomutt/cache/bodies
-set certificate_file  = ~/.config/neomuttmutt/certificates
+set header_cache      = cache/headers
+set message_cachedir  = cache/bodies
+set certificate_file  = cache/certificates
 
 
 ########################
