@@ -1,0 +1,10 @@
+#!/bin/bash
+
+[[ -z "$KDE_FULL_SESSION" ]] && echo "No KDE session."
+[[ -f $HOME/.config/kactivitymanagerdrc ]] || echo "Activity config not found"
+
+current_activity_id="$(qdbus org.kde.ActivityManager /ActivityManager/Activities org.kde.ActivityManager.Activities.CurrentActivity)"
+
+current_activity_name="$(awk -v ca=$current_activity_id 'BEGIN{FS="="}/^\[activities\]$/,/^$/{if ($1==ca) print tolower($2)}' $HOME/.config/kactivitymanagerdrc)"
+
+export LOCAL_ACTIVITY_NAME="$current_activity_name"

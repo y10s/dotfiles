@@ -1,0 +1,168 @@
+"""""""""""""""""""""""""""""
+" schwammerl's vimrc
+" Version 191001
+"""""""""""""""""""""""""""""
+
+autocmd BufLeave,FocusLost * silent! wall
+filetype plugin indent on
+filetype plugin on
+syntax off
+set mouse=n " Normal mode only
+
+
+""" GUI/OS stuff
+
+"""""" Colorscheme
+"try
+"  colo zellner
+"catch /^Vim\%((\a\+)\)\=:E185/
+"  colo default
+"endtry
+
+"""""" Vimdiff
+if &diff
+  autocmd VimResized * wincmd =
+  autocmd GuiEnter * simalt ~x
+  colo peachpuff
+endif
+
+"""""" Populate $VIMLOCAL
+if has("win32") || has("win64")
+  let $VIMLOCAL = $HOME."/vimfiles"
+else
+  let $VIMLOCAL = $HOME."/.vim"
+endif
+
+""" Options
+set nocompatible " Had to move this up since it messed with e.g.
+" set history...
+
+"""""" Netrw
+let g:netrw_altv = 1
+let g:netrw_banner = 0
+let g:netrw_browse_split = 4
+let g:netrw_liststyle = 3
+let g:netrw_winsize = 25
+
+"""""" Backup and Swap
+set swapfile
+set directory^=~/.vim/swap//
+set backupskip=/tmp/*,/var/log/*,/etc/passwd,/etc/shadow,/etc/group,/etc/sudoers,/var/lib/*
+set writebackup
+set nobackup
+set backupcopy=auto
+if has("patch-8.1.0251")
+  " consolidate the writebackups -- not a big
+  " deal either way, since they usually get deleted
+  set backupdir^=~/.vim/backup//
+end
+set undofile
+set undodir^=~/.vim/undo//
+
+"""""" Tab / indentaion
+set tabstop=8
+set autoindent
+set expandtab
+set softtabstop=2
+set shiftwidth=2
+
+"""""" Search
+set hlsearch
+set ignorecase
+set incsearch
+set smartcase
+
+"""""" Misc Options
+set backspace=2
+set backspace=indent,eol,start
+set encoding=utf-8
+set hidden
+set history=200
+set laststatus=2
+set modelines=0
+set nogdefault
+set nrformats=
+set omnifunc=syntaxcomplete#Complete
+set ruler
+set scrolloff=3
+set showcmd
+set showmatch
+set showmode
+set t_Co=256
+set ttyfast
+set viminfo+=n$VIMLOCAL/viminfo
+set visualbell
+set wildmenu
+set wildmode=list:longest
+
+""" Key bindings
+let mapleader = "\<space>"
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
+nmap <Leader>P "+P
+nmap <Leader>p "+p
+nnoremap <Leader>a ggVG
+nnoremap <leader>f za
+nnoremap <Leader>i :set paste<cr>i
+nnoremap <Leader>w :w<cr>
+nnoremap <leader>- :set cursorline!<cr> " Toggle cursorline
+nnoremap <leader>/ /\v
+nnoremap <leader><space> :noh<cr>
+nnoremap <leader>ev :vsplit $MYVIMRC<cr> " edit $MYVIMRC
+nnoremap <leader>sv :source $MYVIMRC<cr> " source $MYVIMRC
+nnoremap <leader>w :w<cr>
+nnoremap <leader>m :w !make<cr>
+nnoremap <leader>j <C-]>
+vnoremap <tab> %
+noremap <tab> %
+vmap <Leader>P "+P
+vmap <Leader>d "+d
+vmap <Leader>p "+p
+vmap <Leader>y "+y
+vnoremap <leader>/ /\v
+
+""" Abbreviations
+iabbrev <expr> zdate strftime("%Y-%m-%d")
+iabbrev <expr> ztime strftime("%H:%M")
+iabbrev <expr> ydate strftime("%y%m%d")
+iabbrev <expr> yts strftime("%y/%m/%d %T")
+
+" Put your sensitive data here
+source $VIMLOCAL/abbreviations
+
+""" GUI Stuff
+if has ("gui_running")
+  set guioptions -=m    " Disable menu bar
+  set guioptions -=T    " Disable tool bar
+  set guioptions -=r    " Disable right scroll bar
+  set guioptions -=R    " Disable right scroll bar when vsplit
+  set guioptions -=l    " Disable left scroll bar
+  set guioptions -=L    " Disable left scroll bar when split
+
+
+  """""" Font
+  try
+    set guifont=Consolas:h11
+    if has("mac") || has("gui_macvim")
+      try
+        set guifont=Source\ Code\ Pro:h15
+      catch /^Vim\%((\a\+)\)\=:E596/
+      endtry
+    endif
+    if has("gui_gtk") || has("gui_gtk3")
+      try
+        set guifont=Fira\ Code\ 9
+      catch /^Vim\%((\a\+)\)\=:E596/
+      endtry
+    endif
+  catch /^Vim\%((\a\+)\)\=:E596/
+  endtry
+endif
+
+""""" Autocommands FileType
+autocmd FileType python set softtabstop=4 shiftwidth=4
+
+""""" Externalize some stuff
+if filereadable("$VIMLOCAL/private.vim")
+  echo "private.vim found"
+  source "$VIMLOCAL/private.vim"
+endif
