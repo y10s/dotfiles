@@ -1,4 +1,4 @@
-Configuration Files For Vim
+Configuration Files For vim
 ===========================
 
 ## Setup
@@ -10,10 +10,10 @@ Contains all settings. I haven't bothered splitting it up so far.
 * Thus, the options `backupdir`and `undodir` are OS agnostic.
 
 ## Directories
-All directories needed for `vimrc` to work contain `.keep` files, allawing the directories to be included in the repo.
+Create directories in case they are missing
 * `backup`
+* `swap`
 * `undo`...
 
 --  
 Have fun!  
-schwammerl

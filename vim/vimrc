@@ -1,6 +1,6 @@
 """""""""""""""""""""""""""""
-" schwammerl's vimrc
-" Version 191001
+" y10s's vimrc
+" Version 2020-08-10
 """""""""""""""""""""""""""""
 
 autocmd BufLeave,FocusLost * silent! wall
