@@ -1,0 +1,163 @@
+########################
+# Identity
+########################
+
+source mail_identity
+
+# mail_identity example
+########################
+# alternates = "^alias@domain\.tld$"
+# set from = "name@domain.tld"
+# set imap_pass = 'a safe password?'
+# set imap_user = 'name@domain.tld'
+# set realname = "My Real Name"
+# set smtp_pass = 'a safe password?'
+
+
+########################
+# Contacts
+########################
+
+source mail_aliases
+set alias_file = mail_aliases
+bind editor <Tab> complete-query
+bind editor ^T    complete
+
+
+########################
+# Connection
+########################
+
+set ssl_force_tls = yes
+set mail_check = 90
+
+
+########################
+# Server Settings
+########################
+
+source mail_server
+
+# Contains IMAP and SMTP server settings
+# GMail example
+########################
+# set folder = "imaps://imap.gmail.com:993"
+# set imap_check_subscribed
+# set imap_keepalive = 900
+# set postponed = "+[Gmail]/Drafts"
+# # set spoolfile = "+[Gmail]/All Mail"
+# set spoolfile = "+INBOX"
+# set record = ""
+# set sleep_time = 0
+
+
+########################
+# Cache & performance
+########################
+
+set header_cache      = ~/.config/neomutt/cache/headers
+set message_cachedir  = ~/.config/neomutt/cache/bodies
+set certificate_file  = ~/.config/neomuttmutt/certificates
+
+
+########################
+# i18n
+########################
+
+set config_charset="utf-8"
+set charset="utf-8"
+set send_charset="us-ascii:iso-8859-1:iso-8859-15:utf-8"
+
+
+########################
+# Message composition
+########################
+
+set edit_headers
+set fast_reply
+set attribution = "On %d, %n wrote:"
+set forward_quote
+set include
+
+set editor="vim '+:8'"  # vim for editing, and move marker to line 7
+set mime_type_query_command = "xdg-mime query filetype"
+
+set signature = mail_signature
+
+
+########################
+# UI
+########################
+
+# Index settings
+########################
+set markers           = no # don't put '+' at the beginning of wrapped lines
+set sort              = 'threads'
+set sort_aux          = 'last-date-received'
+set date_format       = "%Y/%m/%d %H:%M:%S"
+set index_format      = "[%Z]  %D  %-20.20F  %s"
+
+# Pager settings
+########################
+ignore *
+unignore From Message-ID Date To Cc Bcc Subject
+set pager_index_lines = 10
+set pager_context = 3
+set pager_stop
+unset markers
+# Prefer plain text to html.
+# However, for brain dead clients that bundle attachments inside a
+# multipart/alternative, prefer that alternative.
+alternative_order multipart/mixed multipart/related text/plain
+# Consult mime.types for determining types of these attachments
+mime_lookup application/octet-stream
+
+# Colors
+########################
+# color index-object foreground background [pattern]
+color header      yellow        default Subject:
+color header      cyan          default .
+color body        brightyellow  default [_a-z\.\$A-Z0-9-]+@[a-zA-Z0-9\./\-]+
+color body        yellow        default (http|ftp)://[_a-zA-Z0-9\./~\-]+
+color quoted      green         default
+color signature   green         default
+color indicator   yellow        blue
+color attachment  yellow        default
+color tree        red           default
+color indicator   black         cyan
+color status      black         yellow
+color tilde       blue          default
+color normal      default       default
+color index       red           default '~F'
+color index_date  green         default
+color index_author yellow       default '.*'
+color index_flags default       magenta '~F'
+
+# Sidebar
+set sidebar_visible = yes
+set sidebar_format = "%B%?F? [%F]?%* %?N?%N/?%S"
+set mail_check_stats
+
+
+########################
+# key bindings
+########################
+
+bind index,pager S imap-fetch-mail
+# Index
+bind index g  noop
+bind index gg first-entry
+bind index G  last-entry
+
+# Pager
+bind pager g  noop
+bind pager K  previous-line
+bind pager J  next-line
+bind pager gg top
+bind pager G  bottom
+bind pager R  group-reply
+
+# Sidebar
+bind index,pager <down>   sidebar-next
+bind index,pager <up>     sidebar-prev
+bind index,pager <right>  sidebar-open
